@@ -1,4 +1,6 @@
 #### ✏️
+[![WHE](https://github.com/biozzl/CCTV/actions/workflows/main.yml/badge.svg)](https://github.com/biozzl/CCTV/actions/workflows/main.yml)
+
 - 10.09
   - fix 原 speech to text 网站 gg，切换到 Azure
   - add ffmpeg mp3 to wav
@@ -10,8 +12,10 @@
 
 |YOU SECRET NAME|YOU SECRET VALUE|
 |-----|-----|
-|`USER_ID`|你的 id|
-|`PASS_WD`|你的密码|
+|`USER_ID`|你的 id for W|
+|`PASS_WD`|你的密码 for W|
+|`USER_ID_H`|你的 id for H|
+|`PASS_WD_H`|你的密码 for H|
 |`BARK_KEY`|(可选) https://api.day.app/BARK_KEY/|
 |`TG_BOT_TOKEN`|(可选) `xxxxxx:xxxxxxxxxxxxx`|
 |`TG_USER_ID`|(可选) 给 bot `@userinfobot` 发送 `/start`|
