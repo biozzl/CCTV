@@ -58,18 +58,16 @@ def mp3ToWave():
 
 def speechToText():
     mp3ToWave()
-    print('- Func SpeechToText')
-    driver.tab_new(urlSpeech)
-    delay(2)
-    driver.switch_to.window(driver.window_handles[1])
-    print('- Switched to window SpeechToText')
-    wait_until(Text('Speech to text').exists)
-    scroll_down(num_pixels=1200)
     response = ''
     i = 0
-    #while text == '':
     while ' -' not in response:
-        # 这部分应该还可以完善
+        print('- Func SpeechToText')
+        driver.tab_new(urlSpeech)
+        delay(2)
+        driver.switch_to.window(driver.window_handles[1])
+        print('- Switched to window SpeechToText')
+        wait_until(Text('Speech to text').exists)
+        scroll_down(num_pixels=1200)
         i = i + 1
         if i > 3:
             print('*** speechToText issue! ***')
