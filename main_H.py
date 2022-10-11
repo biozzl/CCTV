@@ -17,13 +17,13 @@ from selenium.webdriver.common.by import By
 ssl._create_default_https_context = ssl._create_unverified_context
 
 try:
-    USER_ID = os.environ['USER_ID_H']
+    USER_ID = os.environ['USER_ID']
 except:
     # 本地调试用
     USER_ID = ''
 
 try:
-    PASS_WD = os.environ['PASS_WD_H']
+    PASS_WD = os.environ['PASS_WD']
 except:
     # 本地调试用
     PASS_WD = ''
@@ -52,7 +52,7 @@ def urlDecode(s):
 
 def mp3ToWave():
     print('- Func mp3 to wave...')
-    subprocess.call(['ffmpeg', '-i', os.getcwd() + audioFile, os.getcwd() + waveFile])
+    subprocess.call(['ffmpeg', '-i', os.getcwd() + audioFile, os.getcwd() + waveFile, '-loglevel', 'quiet', '-y'])
     print('- Func mp3 to wave done!')
 
 
@@ -63,13 +63,13 @@ def speechToText():
     delay(2)
     driver.switch_to.window(driver.window_handles[1])
     print('- Switched to window SpeechToText')
-    #set_driver(driver)
     wait_until(Text('Speech to text').exists)
     scroll_down(num_pixels=1200)
     response = ''
     i = 0
     #while text == '':
     while ' -' not in response:
+        # 这部分应该还可以完善
         i = i + 1
         if i > 3:
             print('*** speechToText issue! ***')
@@ -302,6 +302,9 @@ def renewCheck():
             print('*** %s %d ***' % (body, renew))
             refresh()
             renewVPS()
+            if 'renewed' in body:
+                body = '🎉 ' + body
+                break
     elif 'renewed' in body:
         body = '🎉 ' + body
         #print(body)
@@ -316,7 +319,7 @@ def extendResult():
         body = str([key.web_element.text for key in textList][0])
         #print('extendResult:', result)
         delay(1)
-        #return result
+        return body
     except Exception as e:
         print('*** 💣 extendResult Error:', e)
         screenshot()
@@ -329,7 +332,7 @@ def push(body):
         print('*** No BARK_KEY ***')
     else:
         barkurl = 'https://api.day.app/' + BARK_KEY
-        title = 'H-Extend'
+        title = pushTitle
         rq_bark = requests.get(url=f'{barkurl}/{title}/{body}?isArchive=1')
         if rq_bark.status_code == 200:
             print('- bark push Done!')
@@ -339,7 +342,7 @@ def push(body):
     if TG_BOT_TOKEN == '' or TG_USER_ID == '':
         print('*** No TG_BOT_TOKEN or TG_USER_ID ***')
     else:
-        body = 'W-Extend\n\n' + body
+        body = pushTitle + '\n\n' + body
         server = 'https://api.telegram.org'
         tgurl = server + '/bot' + TG_BOT_TOKEN + '/sendMessage'
         rq_tg = requests.post(tgurl, data={'chat_id': TG_USER_ID, 'text': body}, headers={
@@ -384,6 +387,7 @@ def funcCAPTCHA():
 audioFile = '/audio.mp3'
 waveFile = '/audio.wav'
 imgFile = '/capture.png'
+pushTitle = 'H-Extend'
 ##
 urlWrite = urlDecode('aGF4LmNvLmlk')
 urlLogin = urlDecode('aHR0cHM6Ly9oYXguY28uaWQvbG9naW4=')
