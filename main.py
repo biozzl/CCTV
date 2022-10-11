@@ -302,6 +302,9 @@ def renewCheck():
             print('*** %s %d ***' % (body, renew))
             refresh()
             renewVPS()
+            if 'renewed' in body:
+                body = '🎉 ' + body
+                break
     elif 'renewed' in body:
         body = '🎉 ' + body
         #print(body)
@@ -316,7 +319,7 @@ def extendResult():
         body = str([key.web_element.text for key in textList][0])
         #print('extendResult:', result)
         delay(1)
-        #return result
+        return body
     except Exception as e:
         print('*** 💣 extendResult Error:', e)
         screenshot()
