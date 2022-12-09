@@ -295,7 +295,7 @@ def renewCheck():
     global renew, body
     #print('- body now:', body)
     if 'Robot verification failed' in body:
-        while renew < 10:
+        while renew < 15:
             renew = renew + 1
             print('*** %s %d ***' % (body, renew))
             refresh()
